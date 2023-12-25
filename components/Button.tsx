@@ -12,6 +12,7 @@ interface ButtonProps
   size: 'sm' | 'md' | 'lg' | 'xl';
   color?: string;
   variant: 'primary' | 'secondary' | 'clear';
+  onPress?: () => void;
 }
 
 const buttonVariants = cva('rounded-lg flex items-center justify-center', {

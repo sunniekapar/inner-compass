@@ -6,17 +6,8 @@ import Button from '../../components/Button';
 import StyledText from '../../components/StyledText';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Category, Question } from '../../data/types';
-
-type RouteParams =
-  | 'PersonalRelationship'
-  | 'FamilyRelationship'
-  | 'PersonalDevelopment'
-  | 'HealthAndFitness'
-  | 'FinancialHealthAndHabits'
-  | 'Hobbies'
-  | 'Career'
-  | 'Workplace';
+import { Question } from '../../data/types';
+import ProgressIndicator from '../../components/ProgressIndicator';
 
 const importCategoryData = (categoryName: string | string[]) => {
   switch (categoryName) {
@@ -69,69 +60,75 @@ export default function Survey() {
       router.replace('/layouts/Dashboard');
     }
   };
-  if(questions.length === 0) {
-    return <StyledText>Hi</StyledText>
+  if (questions.length === 0) {
+    return <StyledText>Hi</StyledText>;
   }
   return (
-    <SafeAreaView className="items-center justify-between flex-1 w-2/3 mx-auto my-20">
-      <View className="items-center">
-        <StyledText weight="semibold" className="text-2xl">
-          {category}
-        </StyledText>
-        <StyledText className="mt-5">
-          {Math.round((currentQuestion / questions.length) * 100)}%
-        </StyledText>
-      </View>
-
-      <StyledText
-        className="text-4xl !leading-tight text-center text-blue-900 lg:text-6xl"
-        weight="semibold"
-      >
-        {questions[currentQuestion].question}
-      </StyledText>
-
-      <View className="">
-        <Slider
-          minimumValue={0}
-          maximumValue={10}
-          minimumTrackTintColor={COLORS.blue_900}
-          maximumTrackTintColor={'#1E3A8A80'}
-          thumbTintColor={COLORS.blue_900}
-          value={sliderValue}
-          onValueChange={(value) => setSliderValue(value)}
-          step={1}
-          style={{ width: 300, height: 30 }}
-        />
-        <View className="flex-row justify-between w-100">
-          <StyledText className="text-xl" weight="semibold">
-            Not at all
+    <>
+      <ProgressIndicator
+        maximumValue={questions.length}
+        currentValue={currentQuestion}
+      />
+      <SafeAreaView className="items-center justify-between flex-1 w-2/3 mx-auto my-20">
+        <View className="items-center">
+          <StyledText weight="semibold" className="text-2xl">
+            {category}
           </StyledText>
-          <StyledText className="text-xl ms-2" weight="semibold">
-            {sliderValue}
-          </StyledText>
-          <StyledText className="text-xl" weight="semibold">
-            Extremely
+          <StyledText className="mt-5">
+            {Math.round((currentQuestion / questions.length) * 100)}%
           </StyledText>
         </View>
-        <View className="items-center pt-32">
-          <Button
-            className="shadow-md "
-            variant="primary"
-            size="lg"
-            onPress={nextQuestion}
-          >
-            Next question
-          </Button>
-          <Button
-            className="mt-8"
-            variant="clear"
-            size="lg"
-            onPress={nextQuestion}
-          >
-            Skip question
-          </Button>
+
+        <StyledText
+          className="text-4xl !leading-tight text-center text-blue-900 lg:text-6xl"
+          weight="semibold"
+        >
+          {questions[currentQuestion].question}
+        </StyledText>
+
+        <View>
+          <Slider
+            minimumValue={0}
+            maximumValue={10}
+            minimumTrackTintColor={COLORS.blue_900}
+            maximumTrackTintColor={'#1E3A8A80'}
+            thumbTintColor={COLORS.blue_900}
+            value={sliderValue}
+            onValueChange={(value) => setSliderValue(value)}
+            step={1}
+            style={{ width: 300, height: 30 }}
+          />
+          <View className="flex-row justify-between w-100">
+            <StyledText className="text-xl" weight="semibold">
+              Not at all
+            </StyledText>
+            <StyledText className="ml-2 text-xl" weight="semibold">
+              {sliderValue}
+            </StyledText>
+            <StyledText className="text-xl" weight="semibold">
+              Extremely
+            </StyledText>
+          </View>
+          <View className="items-center pt-32">
+            <Button
+              className="shadow-md "
+              variant="primary"
+              size="lg"
+              onPress={nextQuestion}
+            >
+              Next question
+            </Button>
+            <Button
+              className="mt-8"
+              variant="clear"
+              size="lg"
+              onPress={nextQuestion}
+            >
+              Skip question
+            </Button>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </>
   );
 }
