@@ -15,25 +15,28 @@ interface ButtonProps
   onPress?: () => void;
 }
 
-const buttonVariants = cva('rounded-lg flex items-center justify-center', {
-  variants: {
-    variant: {
-      primary: 'bg-blue-900 ',
-      secondary: 'bg-transparent border-neutral-400 border-2',
-      clear: 'bg-transparent',
+const buttonVariants = cva(
+  'rounded-lg flex items-center justify-center',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-blue-900 shadow-slate-500 shadow-md',
+        secondary: 'bg-transparent border-neutral-400 border-2',
+        clear: 'bg-transparent',
+      },
+      size: {
+        sm: 'px-4 py-1',
+        md: 'px-6 py-3',
+        lg: 'px-16 py-4',
+        xl: 'px-24 py-4',
+      },
+      defaultVariants: {
+        variant: 'primary',
+        size: 'md',
+      },
     },
-    size: {
-      sm: 'px-4 py-1',
-      md: 'px-6 py-3',
-      lg: 'px-16 py-4',
-      xl: 'px-24 py-4',
-    },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-    },
-  },
-});
+  }
+);
 
 const variantTextColorMap = {
   primary: 'text-stone-200',

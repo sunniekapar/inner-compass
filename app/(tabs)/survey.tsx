@@ -4,41 +4,20 @@ import React, { useState, useEffect } from 'react';
 import { COLORS } from '../../constants';
 import Button from '../../components/Button';
 import StyledText from '../../components/StyledText';
-import { router, useLocalSearchParams } from 'expo-router';
-
+import { SplashScreen, router, useLocalSearchParams } from 'expo-router';
 import { Question } from '../../data/types';
 import ProgressIndicator from '../../components/ProgressIndicator';
+import importCategoryData from '../../util/data';
+import Layout from '../../components/Layout';
 
-const importCategoryData = (categoryName: string | string[]) => {
-  switch (categoryName) {
-    case 'PersonalRelationship':
-      return import('../../data/PersonalRelationship');
-    case 'FamilyRelationship':
-      return import('../../data/FamilyRelationship');
-    case 'PersonalDevelopment':
-      return import('../../data/PersonalDevelopment');
-    case 'HealthAndFitness':
-      return import('../../data/HealthAndFitness');
-    case 'FinancialHealthAndHabits':
-      return import('../../data/FinancialHealthAndHabits');
-    case 'Hobbies':
-      return import('../../data/Hobbies');
-    case 'Career':
-      return import('../../data/Career');
-    case 'Workplace':
-      return import('../../data/Workplace');
-    default:
-      throw new Error('Unkown Category');
-  }
-};
-
+SplashScreen.preventAutoHideAsync();
 export default function Survey() {
   const [category, setCategory] = useState('');
   const [sliderValue, setSliderValue] = useState(5);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const params = useLocalSearchParams();
-  let categoryName = Array.isArray(params) ? params.id[0] : params.id;
+  const params = useLocalSearchParams<{ id: string }>();
+  const categoryName = params.id;
 
   useEffect(() => {
     importCategoryData(categoryName)
@@ -53,18 +32,23 @@ export default function Survey() {
   }, [categoryName]);
 
   const nextQuestion = () => {
+    questions[currentQuestion].value = sliderValue;
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       setSliderValue(5);
     } else {
-      router.replace('/layouts/Dashboard');
+      router.replace({
+        pathname: '/home/dashboard',
+        params: { id: categoryName },
+      });
     }
   };
   if (questions.length === 0) {
-    return <StyledText>Hi</StyledText>;
+    return <Layout />;
   }
+  SplashScreen.hideAsync();
   return (
-    <>
+    <Layout>
       <ProgressIndicator
         maximumValue={questions.length}
         currentValue={currentQuestion}
@@ -114,7 +98,7 @@ export default function Survey() {
               className="shadow-md "
               variant="primary"
               size="lg"
-              onPress={nextQuestion}
+              onPressOut={nextQuestion}
             >
               Next question
             </Button>
@@ -122,13 +106,13 @@ export default function Survey() {
               className="mt-8"
               variant="clear"
               size="lg"
-              onPress={nextQuestion}
+              onPressIn={nextQuestion}
             >
               Skip question
             </Button>
           </View>
         </View>
       </SafeAreaView>
-    </>
+    </Layout>
   );
 }

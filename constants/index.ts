@@ -4,4 +4,5 @@ export const COLORS = {
   stone_200: "#E7E5E4",
   blue_900: "#1E3A8A",
   blue_600: "#2563EB",
+  gray: "#C4C3C4",
 }

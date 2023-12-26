@@ -31,6 +31,7 @@ export default function ProgressIndicator({
         className="absolute bottom-0 left-0 right-0 bg-blue-900 rounded"
         style={{ height: bottomInterpolation }}
       />
+      <View className="absolute bottom-0 left-0 right-0 bg-blue-900 rounded opacity-25 h-[100vh]" />
     </View>
   );
 }
