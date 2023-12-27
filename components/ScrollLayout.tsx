@@ -11,8 +11,9 @@ export default function Layout({ children, className }: ViewProps) {
     <ImageBackground
       source={background}
       onLoadEnd={() => setIsLoaded(true)}
-      style={isLoaded ? {} : { backgroundColor: '#C4C3C4' }}
+      style={isLoaded ? {} : { backgroundColor: '#e5e8eb' }}
       className="flex-1 h-[100vh]"
+      blurRadius={10}
     >
       <ScrollView>
         <SafeAreaView className={twMerge('flex-1', className)}>

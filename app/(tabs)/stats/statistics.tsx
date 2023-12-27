@@ -17,6 +17,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { twMerge } from 'tailwind-merge';
 import ScrollLayout from '../../../components/ScrollLayout';
 import Bar from '../../../components/Bar';
+import Card from '../../../components/Card';
 
 const resultsColorMap = (value: number) => {
   switch (value) {
@@ -39,7 +40,7 @@ const resultsColorMap = (value: number) => {
   }
 };
 
-export default function Dashboard() {
+export default function statistics() {
   const [data, setData] = useState<Category | null>();
   const [questions, setQuestions] = useState<Question[] | []>();
   const params = useLocalSearchParams().id
@@ -77,11 +78,7 @@ export default function Dashboard() {
       <View className="flex items-center justify-center border border-blue-900 rounded-lg h-72">
         <StyledText>Graph</StyledText>
       </View>
-      <View
-        style={{ backgroundColor: 'rgba(231, 229, 228, 0.25)' }}
-        className="flex-col p-16 mt-10 rounded-lg shadow-2xl"
-      >
-        
+      <Card className="flex-col p-16 mt-10 ">
         <View className="flex-row items-center justify-between gap-5 mb-10">
           <View className="flex-row gap-4">
             <Button variant="primary" size="sm" className="rounded-full ">
@@ -100,33 +97,32 @@ export default function Dashboard() {
           </Pressable>
         </View>
         <View className="h-96">
-        <FlatList
-          data={questions}
-          renderItem={({ item }) => (
-            <>
-              <View className="flex-row justify-between">
-                <StyledText className="text-xl" weight="medium">
-                  {item.subCategory}
-                </StyledText>
-                <StyledText
-                  className={twMerge(
-                    'text-xl text-right',
-                    resultsColorMap(item.value)
-                  )}
-                  weight="bold"
-                >
-                  {item.value}
-                </StyledText>
-              </View>
-              <Bar />
-            </>
-          )}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerClassName="px-6 pb-6"
-        />
+          <FlatList
+            data={questions}
+            renderItem={({ item }) => (
+              <>
+                <View className="flex-row justify-between">
+                  <StyledText className="text-xl" weight="medium">
+                    {item.subCategory}
+                  </StyledText>
+                  <StyledText
+                    className={twMerge(
+                      'text-xl text-right',
+                      resultsColorMap(item.value)
+                    )}
+                    weight="bold"
+                  >
+                    {item.value}
+                  </StyledText>
+                </View>
+                <Bar />
+              </>
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerClassName="px-6 pb-6"
+          />
         </View>
-        
-      </View>
+      </Card>
     </ScrollLayout>
   );
 }

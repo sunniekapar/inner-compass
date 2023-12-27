@@ -69,10 +69,11 @@ export default function Button({
     cn(buttonVariants({ variant, size, className }), className)
   );
   const textColorClass = variantTextColorMap[variant];
+  const opacity = props.disabled ? "opacity-25" : "";
   return (
-    <Pressable {...props} className={buttonStyles}>
+    <Pressable {...props} className={twMerge(buttonStyles, opacity)}>
       <StyledText
-        className={twMerge(styles(size), textColorClass)}
+        className={twMerge(styles(size), textColorClass )}
         weight="bold"
       >
         {children}

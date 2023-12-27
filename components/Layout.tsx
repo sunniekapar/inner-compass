@@ -8,9 +8,10 @@ export default function Layout({ children, className } : ViewProps) {
 
   return (
     <ImageBackground 
+      blurRadius={10}
       source={background} 
       onLoadEnd={() => setIsLoaded(true)}
-      style={isLoaded ? {} : { backgroundColor: '#C4C3C4' }}
+      style={isLoaded ? {} : { backgroundColor: '#e5e8eb' }}
       className="flex-1 h-[100vh]"
     >
       <SafeAreaView className={twMerge("flex-1", className)}>

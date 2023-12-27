@@ -5,4 +5,7 @@ export const COLORS = {
   blue_900: "#1E3A8A",
   blue_600: "#2563EB",
   gray: "#C4C3C4",
+  blue_900_opaque: "#1E3A8A80",
+
 }
+

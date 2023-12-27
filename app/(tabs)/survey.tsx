@@ -38,7 +38,7 @@ export default function Survey() {
       setSliderValue(5);
     } else {
       router.replace({
-        pathname: '/home/dashboard',
+        pathname: '/stats/statistics',
         params: { id: categoryName },
       });
     }

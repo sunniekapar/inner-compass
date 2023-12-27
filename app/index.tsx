@@ -2,5 +2,5 @@ import { Redirect } from 'expo-router';
 
 export default function StartPage() {
   
-  return <Redirect href="/start" />;
+  return <Redirect href="/home/start" />;
 }
