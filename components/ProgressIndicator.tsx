@@ -28,10 +28,10 @@ export default function ProgressIndicator({
   return (
     <View className="absolute top-0 bottom-0 left-0 right-0 w-2">
       <Animated.View
-        className="absolute bottom-0 left-0 right-0 bg-blue-900 rounded"
+        className="absolute bottom-0 left-0 right-0 bg-blue-900 rounded rounded-b-none"
         style={{ height: bottomInterpolation }}
       />
-      <View className="absolute bottom-0 left-0 right-0 bg-blue-900 rounded opacity-25 h-[100vh]" />
+      <View className="absolute bottom-0 left-0 right-0 bg-blue-900 rounded rounded-b-none opacity-25 h-[100vh]" />
     </View>
   );
 }

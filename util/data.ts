@@ -1,20 +1,21 @@
 const importCategoryData = (categoryName: string) => {
-  switch (categoryName) {
-    case 'PersonalRelationship':
+  const str = categoryName.toLowerCase().replaceAll(' ', '');
+  switch (str) {
+    case 'personalrelationship':
       return import('../data/PersonalRelationship');
-    case 'FamilyRelationship':
+    case 'familyrelationship':
       return import('../data/FamilyRelationship');
-    case 'PersonalDevelopment':
+    case 'personaldevelopment':
       return import('../data/PersonalDevelopment');
-    case 'HealthAndFitness':
+    case 'healthandfitness':
       return import('../data/HealthAndFitness');
-    case 'FinancialHealthAndHabits':
+    case 'financialhealthandhabits':
       return import('../data/FinancialHealthAndHabits');
-    case 'Hobbies':
+    case 'hobbies':
       return import('../data/Hobbies');
-    case 'Career':
+    case 'career':
       return import('../data/Career');
-    case 'Workplace':
+    case 'workplace':
       return import('../data/Workplace');
     default:
       throw new Error('Unkown Category');

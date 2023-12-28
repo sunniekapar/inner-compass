@@ -9,7 +9,7 @@ export default function _layout() {
       screenOptions={{
         tabBarStyle: {
           height: 70,
-          backgroundColor: "#e5e8eb",
+          backgroundColor: '#e5e8eb',
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -18,9 +18,8 @@ export default function _layout() {
         },
       }}
     >
-      <Tabs.Screen name="survey" options={{ headerShown: false, href: null }} />
       <Tabs.Screen
-        name="home/start"
+        name="(home)/home"
         options={{
           title: 'Home',
           headerShown: false,
@@ -32,7 +31,7 @@ export default function _layout() {
         }}
       />
       <Tabs.Screen
-        name="stats/statistics"
+        name="(statistics)/statistics"
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
@@ -45,7 +44,7 @@ export default function _layout() {
         }}
       />
       <Tabs.Screen
-        name="history/history"
+        name="(history)/history"
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
@@ -56,6 +55,10 @@ export default function _layout() {
           },
           tabBarShowLabel: false,
         }}
+      />
+      <Tabs.Screen
+        name="(survey)/survey"
+        options={{ href: null, headerShown: false, tabBarShowLabel: false }}
       />
     </Tabs>
   );
