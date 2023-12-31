@@ -1,42 +1,38 @@
-import { Pressable, PressableProps } from 'react-native';
+import { GestureResponderEvent, Pressable, PressableProps, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { VariantProps, cva } from 'class-variance-authority';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import cn from '../util/cn';
 import { twMerge } from 'tailwind-merge';
 import StyledText from './StyledText';
 
 interface ButtonProps
-  extends PressableProps,
+  extends TouchableOpacityProps,
     VariantProps<typeof buttonVariants> {
   children: ReactNode;
-  size: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   color?: string;
-  variant: 'primary' | 'secondary' | 'clear';
-  onPress?: () => void;
+  variant?: 'primary' | 'secondary' | 'clear';
 }
 
-const buttonVariants = cva(
-  'rounded-lg flex items-center justify-center',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-blue-900 shadow-slate-500 shadow-md',
-        secondary: 'bg-transparent border-neutral-400 border-2',
-        clear: 'bg-transparent',
-      },
-      size: {
-        sm: 'px-4 py-1',
-        md: 'px-6 py-3',
-        lg: 'px-16 py-4',
-        xl: 'px-24 py-4',
-      },
-      defaultVariants: {
-        variant: 'primary',
-        size: 'md',
-      },
+const buttonVariants = cva('rounded-xl flex items-center justify-center', {
+  variants: {
+    variant: {
+      primary: 'bg-blue-900 shadow-slate-500 shadow-sm',
+      secondary: 'bg-transparent border-neutral-400 border-2',
+      clear: 'bg-transparent',
     },
-  }
-);
+    size: {
+      sm: 'px-4 py-1',
+      md: 'px-6 py-3',
+      lg: 'px-16 py-4',
+      xl: 'px-24 py-4',
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+    },
+  },
+});
 
 const variantTextColorMap = {
   primary: 'text-stone-200',
@@ -65,19 +61,24 @@ export default function Button({
   color = 'text-stone-200',
   ...props
 }: ButtonProps) {
+
   const buttonStyles = twMerge(
     cn(buttonVariants({ variant, size, className }), className)
   );
-  const textColorClass = variantTextColorMap[variant];
-  const opacity = props.disabled ? "opacity-25" : "";
+  const textColorClass = variantTextColorMap[variant ? variant : 'primary'];
+  const opacity = props.disabled ? 'opacity-25' : '';
   return (
-    <Pressable {...props} className={twMerge(buttonStyles, opacity)}>
+    <TouchableOpacity activeOpacity={0.75}
+      {...props}
+
+      className={twMerge(buttonStyles, opacity)}
+    >
       <StyledText
-        className={twMerge(styles(size), textColorClass )}
+        className={twMerge(styles(size ? size : 'md'), textColorClass)}
         weight="bold"
       >
         {children}
       </StyledText>
-    </Pressable>
+    </TouchableOpacity>
   );
 }

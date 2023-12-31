@@ -1,5 +1,5 @@
 const importCategoryData = (categoryName: string) => {
-  const str = categoryName.toLowerCase().replaceAll(' ', '');
+  const str = categoryName.toLowerCase().replaceAll(' ', '').replaceAll('&', 'and');
   switch (str) {
     case 'personalrelationship':
       return import('../data/PersonalRelationship');

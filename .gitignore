@@ -30,7 +30,7 @@ yarn-error.*
 
 # local env files
 .env*.local
-
+.env
 # typescript
 *.tsbuildinfo
 
@@ -39,3 +39,4 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+util/key.ts

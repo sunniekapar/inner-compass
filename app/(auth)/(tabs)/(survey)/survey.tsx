@@ -1,14 +1,14 @@
 import { View, SafeAreaView } from 'react-native';
 import Slider from '@react-native-community/slider';
 import React, { useState, useEffect } from 'react';
-import { COLORS } from '../../../constants';
-import Button from '../../../components/Button';
-import StyledText from '../../../components/StyledText';
+import { COLORS } from '../../../../constants';
+import Button from '../../../../components/Button';
+import StyledText from '../../../../components/StyledText';
 import { SplashScreen, router, useLocalSearchParams } from 'expo-router';
-import { Question } from '../../../data/types';
-import ProgressIndicator from '../../../components/ProgressIndicator';
-import importCategoryData from '../../../util/data';
-import Layout from '../../../components/Layout';
+import { Question } from '../../../../data/types';
+import ProgressIndicator from '../../../../components/ProgressIndicator';
+import importCategoryData from '../../../../util/data';
+import Layout from '../../../../components/Layout';
 
 SplashScreen.preventAutoHideAsync();
 export default function Survey() {
@@ -38,7 +38,7 @@ export default function Survey() {
       setSliderValue(5);
     } else {
       router.replace({
-        pathname: '/(tabs)/(statistics)/statistics',
+        pathname: '/(auth)/(tabs)/(statistics)/statistics',
         params: { id: categoryName },
       });
     }
@@ -98,7 +98,7 @@ export default function Survey() {
               className="shadow-md "
               variant="primary"
               size="lg"
-              onPressOut={nextQuestion}
+              onPressIn={nextQuestion}
             >
               Next question
             </Button>
