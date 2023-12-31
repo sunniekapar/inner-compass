@@ -1,10 +1,10 @@
-import StyledText from '../../../components/StyledText';
-import Button from '../../../components/Button';
+import StyledText from '../../../../components/StyledText';
+import Button from '../../../../components/Button';
 import { Pressable, View, ScrollView } from 'react-native';
-import Layout from '../../../components/Layout';
+import Layout from '../../../../components/Layout';
 import React, { useState } from 'react';
-import StyledModal from '../../../components/StyledModal';
-import Card from '../../../components/Card';
+import StyledModal from '../../../../components/StyledModal';
+import Card from '../../../../components/Card';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -121,7 +121,7 @@ export default function home() {
           onPress={() => {
             setModalVisible(false);
             router.push({
-              pathname: '/(tabs)/(survey)/survey',
+              pathname: '/(auth)/(tabs)/(survey)/survey',
               params: { id: selectedCategory},
             });
           }}
