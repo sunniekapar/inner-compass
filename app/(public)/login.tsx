@@ -1,4 +1,4 @@
-import { TextInput, SafeAreaView, View, ScrollView } from 'react-native';
+import {  View, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import Button from '../../components/Button';
 import { Link } from 'expo-router';
@@ -102,3 +102,4 @@ export default function Login() {
     </Layout>
   );
 }
+
