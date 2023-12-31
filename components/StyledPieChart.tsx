@@ -31,8 +31,8 @@ const ChartSegment: FC<{
   circumference: number;
   value: number;
   percent: number;
-  data: Question[];
   progress: Animated.SharedValue<number>;
+  angle: number;
 }> = ({
   index,
   center,
@@ -41,8 +41,8 @@ const ChartSegment: FC<{
   circumference,
   value,
   percent,
-  data,
   progress,
+  angle,
 }) => {
   const animatedProps = useAnimatedProps(() => {
     const strokeDashoffset = interpolate(
@@ -50,42 +50,38 @@ const ChartSegment: FC<{
       [0, 1],
       [circumference, circumference * percent]
     );
-    const deg = interpolate(
-      progress.value,
-      [0,1],
-      [0, (360 * index) / data.length]
-    )
+    const deg = interpolate(progress.value, [0, 1], [0, angle]);
     return {
-      strokeDashoffset,
       // transform: [
       //   { translateX: center },
       //   { translateY: center },
-      //   { rotate: `${(360 * index) / data.length}deg` },
-      //   { translateX: center },
-      //   { translateY: center },
+      //   { rotate: `${deg}deg` },
+      //   { translateX: -center },
+      //   { translateY: -center },
       // ],
+      strokeDashoffset,
     };
   });
   return (
-    <AnimatedCircle
-      cx={center}
-      cy={center}
-      r={radius}
-      strokeWidth={strokeWidth}
-      stroke={colorMapHEX(value)}
-      strokeDasharray={circumference}
-      animatedProps={animatedProps}
-      fill="transparent"
-      rotation={(360 * index) / data.length}
-      originX={center}
-      originY={center}
-    />
+      <AnimatedCircle
+        originX={center}
+        originY={center}
+        cx={center}
+        cy={center}
+        r={radius}
+        strokeWidth={strokeWidth}
+        stroke={colorMapHEX(value)}
+        strokeDasharray={circumference}
+        fill="transparent"
+        animatedProps={animatedProps}
+        rotation={angle}
+      />
   );
 };
 
 export default function StyledPieChart({
-  size = 750,
-  strokeWidth = 250,
+  size = 500,
+  strokeWidth = 225,
   data,
 }: PieChartProps) {
   const progress = useSharedValue(0);
@@ -98,44 +94,40 @@ export default function StyledPieChart({
     duration: 1000,
   });
   return (
-    <Svg
-      width="100%"
-      height="100%"
-      viewBox={`0 0 ${size} ${size}`}
-      preserveAspectRatio="xMinYMin slice"
-      shape-renderer="crispEdges"
-    >
-      {data.map((item, index) => {
-        return (
-          <ChartSegment
-            progress={progress}
-            index={index}
-            key={index}
-            center={center}
-            radius={radius}
-            strokeWidth={(strokeWidth * item.value) / 10}
-            data={data}
-            circumference={circumference}
-            percent={sectionPercentage}
-            value={item.value}
-          />
-        );
-      })}
-      <Circle
-        cx={center}
-        cy={center}
-        r={radius - strokeWidth / 20}
-        fill={COLORS.stone_200}
-        stroke="rgba(229, 232, 235, 0.95)"
-      />
-      <Circle
-        cx={center}
-        cy={center}
-        r={radius + strokeWidth / 2}
-        fill="transparent"
-        stroke="rgba(0, 0, 0, 0.1)"
-        strokeWidth={4}
-      />
-    </Svg>
+    <View className="justify-center flex-1 items center">
+      <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+        {data.map((item, index) => {
+          return (
+            <ChartSegment
+              index={index}
+              key={item.id}
+              center={center}
+              radius={radius}
+              strokeWidth={(strokeWidth * item.value) / 10}
+              circumference={circumference}
+              percent={sectionPercentage}
+              value={item.value}
+              progress={progress}
+              angle={(360 * index) / data.length}
+            />
+          );
+        })}
+        <Circle
+          cx={center}
+          cy={center}
+          r={radius - strokeWidth / 20}
+          fill={COLORS.stone_200}
+          stroke="rgba(229, 232, 235, 0.95)"
+        />
+        <Circle
+          cx={center}
+          cy={center}
+          r={radius + strokeWidth / 2}
+          fill="transparent"
+          stroke="rgba(0, 0, 0, 0.1)"
+          strokeWidth={4}
+        />
+      </Svg>
+    </View>
   );
 }
