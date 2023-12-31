@@ -7,7 +7,6 @@ import { key } from '../util/key';
 
 const CLERK_PUBLISHABLE_KEY = key;
 
-
 const tokenCache = {
   async getToken(key: string) {
     try {
