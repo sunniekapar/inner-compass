@@ -42,11 +42,14 @@ export default function reset() {
   };
 
   return (
-    <Layout className="items-center justify-center flex-1 w-1/2 px-4 mx-auto ">
-      <Stack.Screen options={{ headerBackVisible: !successfulCreation }} />
+    <Layout className="items-center justify-center flex-1 w-5/6 px-4 mx-auto sm:w-1/2">
       <ScrollView
         automaticallyAdjustKeyboardInsets
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          paddingHorizontal: 1,
+        }}
         className="w-full"
       >
         {successfulCreation ? (
@@ -78,15 +81,12 @@ export default function reset() {
             </View>
 
             <View className="w-full justify start">
-              <StyledText weight="bold" className="mb-1 text-xl">
-                Email
-              </StyledText>
               <StyledTextInput
                 autoCapitalize="none"
                 placeholder="johndoe@gmail.com"
                 value={emailAddress}
                 onChangeText={setEmailAddress}
-                className="mb-2"
+                label="Email"
               />
             </View>
             <Button
@@ -98,10 +98,8 @@ export default function reset() {
               Reset password
             </Button>
             <View className="flex-row w-full">
-              <Link href="/login">
-                <StyledText weight="semibold">
-                  Back to sign in
-                </StyledText>
+              <Link href="/login" replace>
+                <StyledText weight="semibold">Back to sign in</StyledText>
               </Link>
             </View>
           </>

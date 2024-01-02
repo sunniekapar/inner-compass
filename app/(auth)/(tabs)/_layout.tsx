@@ -54,6 +54,7 @@ export default function _layout() {
             );
           },
           tabBarShowLabel: false,
+          href: null
         }}
       />
       <Tabs.Screen

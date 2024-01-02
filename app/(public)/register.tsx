@@ -13,6 +13,8 @@ export default function register() {
 
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,6 +30,8 @@ export default function register() {
       await signUp.create({
         emailAddress,
         password,
+        firstName,
+        lastName,
       });
 
       // Send verification Email
@@ -70,10 +74,14 @@ export default function register() {
   }
 
   return (
-    <Layout className="items-center justify-center flex-1 w-1/2 px-4 mx-auto ">
+    <Layout className="items-center justify-center flex-1 w-5/6 px-4 mx-auto sm:w-1/2">
       <ScrollView
         automaticallyAdjustKeyboardInsets
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          paddingHorizontal: 1,
+        }}
         className="w-full"
       >
         {!pendingVerification ? (
@@ -86,35 +94,60 @@ export default function register() {
             </StyledText>
 
             <View className="w-full">
-              <StyledText weight="bold" className="mb-1 text-xl">
-                Email
+              <StyledText weight="bold" className="mb-2 text-xl">
+                Name
               </StyledText>
+              <View className="w-full sm:flex-row">
+                <View className="w-full sm:w-1/2 sm:pr-2">
+                  <StyledTextInput
+                    autoCapitalize="none"
+                    placeholder="John"
+                    value={firstName}
+                    onChangeText={setFirstName}
+                    description="First"
+                    className="mr-2"
+                  />
+                </View>
+                <View className="w-full sm:w-1/2 sm:pl-2">
+                  <StyledTextInput
+                    autoCapitalize="none"
+                    placeholder="Doe"
+                    value={lastName}
+                    onChangeText={setLastName}
+                    description="Last"
+                  />
+                </View>
+              </View>
+
               <StyledTextInput
                 autoCapitalize="none"
                 placeholder="johndoe@gmail.com"
                 value={emailAddress}
                 onChangeText={setEmailAddress}
-                className="mb-2"
+                label="Email"
               />
-              <StyledText weight="bold" className="mb-1 text-xl">
-                Password
-              </StyledText>
+
               <StyledTextInput
                 placeholder="password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
-                className="mb-4"
+                label="Password"
               />
-              <Button variant="primary" size="md" className='mb-4' onPress={onSignUpPress}>
+              <Button
+                variant="primary"
+                size="md"
+                className="mt-2 mb-4"
+                onPress={onSignUpPress}
+              >
                 Sign up with email
               </Button>
 
               <View className="flex-row w-full">
                 <StyledText weight="semibold" className="mr-1 text-neutral-500">
-                  Already have an account? 
+                  Already have an account?
                 </StyledText>
-                <Link href="/login">
+                <Link href="/login" replace>
                   <StyledText weight="bold">Log in</StyledText>
                 </Link>
               </View>

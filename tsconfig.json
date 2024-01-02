@@ -6,5 +6,5 @@
     "target": "es2017",
     "jsx": "react-native"
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "api/index.js", "api/models/schema.js", "api/models/Workplace.js", "api/models/PersonalRelationship.js", "api/models/PersonalDevelopment.js", "api/models/Hobbies.js", "api/models/HealthAndFitness.js", "api/models/FinancialHealthAndHabits.js", "api/models/FamilyRelationship.js", "api/models/Career.js"]
 }

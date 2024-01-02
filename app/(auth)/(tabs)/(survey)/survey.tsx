@@ -9,13 +9,18 @@ import { Question } from '../../../../data/types';
 import ProgressIndicator from '../../../../components/ProgressIndicator';
 import importCategoryData from '../../../../util/data';
 import Layout from '../../../../components/Layout';
+import { useUser } from '@clerk/clerk-expo';
+import { url } from '../../../../util/key';
 
 SplashScreen.preventAutoHideAsync();
+
 export default function Survey() {
   const [category, setCategory] = useState('');
   const [sliderValue, setSliderValue] = useState(5);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [buttonLabel, setButtonLabel] = useState('Next question');
+  const { user } = useUser();
   const params = useLocalSearchParams<{ id: string }>();
   const categoryName = params.id;
 
@@ -31,16 +36,49 @@ export default function Survey() {
       });
   }, [categoryName]);
 
-  const nextQuestion = () => {
-    questions[currentQuestion].value = sliderValue;
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
-      setSliderValue(5);
-    } else {
+  const submitSurvey = async () => {
+    const data = {
+      userId: user?.id,
+      category: categoryName,
+      questions: questions.map(({ id, question, ...rest }) => rest),
+    };
+
+    const surveyDataJSON = JSON.stringify(data);
+    try {
+      const response = await fetch(`${url}/categories/${user?.id}/${categoryName.replaceAll(' ', '')}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: surveyDataJSON,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      console.log('Survey data saved:', responseData);
+
+      // Redirect or update the UI after successful submission
       router.replace({
         pathname: '/(auth)/(tabs)/(statistics)/statistics',
         params: { id: categoryName },
       });
+    } catch (error) {
+      console.error('Error submitting survey:', error);
+    }
+  };
+
+  const nextQuestion = () => {
+    questions[currentQuestion].value = sliderValue;
+    if (currentQuestion < questions.length - 1) {
+      if (currentQuestion === questions.length - 2)
+        setButtonLabel('Finish survey');
+      setCurrentQuestion((prev) => prev + 1);
+      setSliderValue(5);
+    } else {
+      submitSurvey();
     }
   };
   if (questions.length === 0) {
@@ -58,9 +96,9 @@ export default function Survey() {
           <StyledText weight="semibold" className="text-2xl">
             {category}
           </StyledText>
-          <StyledText className="mt-5">
+          {/* <StyledText className="mt-5">
             {Math.round((currentQuestion / questions.length) * 100)}%
-          </StyledText>
+          </StyledText> */}
         </View>
 
         <StyledText
@@ -100,7 +138,7 @@ export default function Survey() {
               size="lg"
               onPressIn={nextQuestion}
             >
-              Next question
+              {buttonLabel}
             </Button>
             <Button
               className="mt-8"
