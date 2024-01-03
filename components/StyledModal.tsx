@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Modal, SafeAreaView, View } from 'react-native';
-import Button from './Button';
+import { Modal, Pressable, SafeAreaView, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Card from './Card';
 import { twMerge } from 'tailwind-merge';
@@ -26,16 +25,14 @@ const StyledModal: React.FC<ModalProps> = ({
       onRequestClose={() => setModalVisible(false)}
     >
       <SafeAreaView className="items-center justify-center flex-1 bg-slate-rgba">
-        <Card className="flex-1 w-7/12 px-0 m-20 h-2/3">
-          <Button
-            variant="clear"
-            size="lg"
+        <Card className="flex-1 w-7/12 p-10 m-20 h-2/3">
+          <Pressable
             onPress={() => setModalVisible(false)}
             className="flex-row justify-end"
           >
             <Ionicons name="md-close-sharp" size={24} color="black" />
-          </Button>
-          <View className={twMerge('items-center flex-1', className)}>
+          </Pressable>
+          <View className={twMerge('items-center flex-1 mt-5', className)}>
             {children}
           </View>
         </Card>

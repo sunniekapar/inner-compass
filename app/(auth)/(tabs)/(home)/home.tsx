@@ -10,38 +10,39 @@ import { Entypo } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useUser } from '@clerk/clerk-expo';
 import { LogoutButton } from '../../_layout';
+import { normalizeCategoryName } from './../../../../util/util';
 const data = [
   {
     category: 'Personal Relationship',
-    description: 'Some description',
+    description: 'Explore and evaluate the quality of your romantic and close personal connections.',
   },
   {
     category: 'Family Relationship',
-    description: 'Some description',
+    description: 'Reflect on the dynamics and health of your relationships with family members.',
   },
   {
     category: 'Personal Development',
-    description: 'Some description',
+    description: 'Assess your journey in self-improvement and personal growth areas.',
   },
   {
-    category: 'Health And Fitness',
-    description: 'Some description',
+    category: 'Health & Fitness',
+    description: 'Gauge your physical well-being, fitness levels, and health habits.',
   },
   {
-    category: 'Financial Health And Habits',
-    description: 'Some description',
+    category: 'Financial Health & Habits',
+    description: 'Examine your financial management skills and monetary well-being.',
   },
   {
-    category: 'Hobbies',
-    description: 'Some description',
+    category: 'Hobbies & Interests',
+    description: 'Look into how you engage with and value your leisure activities and interests.',
   },
   {
     category: 'Career',
-    description: 'Some description',
+    description: 'Evaluate your professional progression, satisfaction, and aspirations.',
   },
   {
     category: 'Workplace',
-    description: 'Some description',
+    description: 'Assess the environment and culture of your current workplace and its impact on you.',
   },
 ];
 export default function home() {
@@ -51,7 +52,7 @@ export default function home() {
   const { user } = useUser();
   return (
     <>
-      <View className="absolute z-10 left-8 top-8">
+      <View className="absolute z-10 right-8 top-8">
         <LogoutButton />
       </View>
       <Layout className="flex-col items-center justify-center gap-6 px-10 mx-auto">

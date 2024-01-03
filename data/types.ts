@@ -4,7 +4,7 @@ export interface Category {
 }
 
 export interface Question {
-  id: number;
+  _id: number;
   subCategory: string;
   question: string;
   value: number;

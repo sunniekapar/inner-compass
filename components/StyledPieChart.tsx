@@ -48,7 +48,7 @@ const ChartSegment: FC<{
     const strokeDashoffset = interpolate(
       progress.value,
       [0, 1],
-      [circumference, circumference * percent]
+      [circumference, circumference * percent -.3]
     );
     const deg = interpolate(progress.value, [0, 1], [0, angle]);
     return {
@@ -100,7 +100,7 @@ export default function StyledPieChart({
           return (
             <ChartSegment
               index={index}
-              key={item.id}
+              key={item._id}
               center={center}
               radius={radius}
               strokeWidth={(strokeWidth * item.value) / 10}

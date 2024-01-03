@@ -11,8 +11,8 @@ const importCategoryData = (categoryName: string) => {
       return import('../data/HealthAndFitness');
     case 'financialhealthandhabits':
       return import('../data/FinancialHealthAndHabits');
-    case 'hobbies':
-      return import('../data/Hobbies');
+    case 'hobbiesandinterests':
+      return import('../data/HobbiesAndInterests');
     case 'career':
       return import('../data/Career');
     case 'workplace':

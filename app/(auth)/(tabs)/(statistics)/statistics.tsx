@@ -17,6 +17,27 @@ import { useUser } from '@clerk/clerk-expo';
 import { COLORS } from '../../../../constants';
 import { url } from '../../../../util/key';
 
+const colorMapTW = (value: number) => {
+  switch (value) {
+    case 10:
+      return ' text-indigo-900';
+    case 9:
+    case 8:
+      return ' text-blue-900';
+    case 7:
+    case 6:
+      return ' text-emerald-700';
+    case 5:
+    case 4:
+      return ' text-amber-500';
+    case 3:
+    case 2:
+      return ' text-orange-600';
+    default:
+      return ' text-red-700';
+  }
+};
+
 export default function statistics() {
   const categories = [
     { value: 'Personal Relationship', key: 1 },
@@ -24,7 +45,7 @@ export default function statistics() {
     { value: 'Personal Development', key: 3 },
     { value: 'Health & Fitness', key: 4 },
     { value: 'Financial Health & Habits', key: 5 },
-    { value: 'Hobbies', key: 6 },
+    { value: 'Hobbies & Interests', key: 6 },
     { value: 'Career', key: 7 },
     { value: 'Workplace', key: 8 },
   ];
@@ -46,7 +67,7 @@ export default function statistics() {
     importCategoryData(categoryName)
       .then((module) => {
         setData({ ...module.default });
-        setSelectedCategoryName(module.default.category);
+        setSelectedCategoryName(module.default.category.replace('And', '&'));
         setQuestions(module.default.questions);
       })
       .catch((error) => {
@@ -58,12 +79,13 @@ export default function statistics() {
     const fetchData = async () => {
       try {
         setLoading(true);
+        const collectionName = selectedCategoryName
+          .replaceAll(' ', '')
+          .replace('&', 'And');
         const response = await fetch(
-          `${url}/categories/${
-            user?.id
-          }/${selectedCategoryName.replaceAll(' ', '')}`
+          `${url}/categories/${user?.id}/${collectionName}`
         );
-        if (!response.ok) fetchFromLocal(selectedCategoryName);
+        if (!response.ok) fetchFromLocal(collectionName);
         else {
           const result = await response.json();
 
@@ -72,11 +94,11 @@ export default function statistics() {
           );
 
           setData(result);
-          setSelectedCategoryName(result.category);
+          setSelectedCategoryName(result.category.replace('And', '&'));
           setQuestions(sortedQuestions);
         }
       } catch (error) {
-        console.error('Error submitting survey:', error);
+        console.error('Error getting survey:', error);
       } finally {
         setLoading(false);
       }
@@ -102,15 +124,18 @@ export default function statistics() {
 
   return (
     <ScrollLayout className="mx-auto w-[400px] my-32 items-center">
+      <StyledText className="mb-16 text-5xl text-blue-900" weight="bold">
+         Results
+        </StyledText>
       <View className="items-center justify-center flex-1 h-96 w-96">
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <StyledPieChart data={questions} key={-1} />
+          <StyledPieChart data={questions} key={user?.id} />
         )}
       </View>
 
-      <Card className="relative flex-col p-16 mt-20">
+      <Card className="relative flex-col px-8 py-12 mt-20">
         <View className="z-10 flex-row items-start justify-end gap-10 ">
           <View className="absolute left-0 z-10">
             <SelectList
@@ -120,10 +145,12 @@ export default function statistics() {
               save="value"
               boxStyles={{ borderWidth: 0, backgroundColor: 'transparent' }}
               dropdownStyles={{
-                borderWidth: 0,
+                borderWidth: 1,
                 position: 'relative',
                 backgroundColor: '#f5f5f5',
                 elevation: 5, // For Android
+                borderColor: "rgba(115,115,115, 0.1)",
+                borderRadius: 6,
               }}
               search={false}
               placeholder={selectedCategoryName}
@@ -150,9 +177,7 @@ export default function statistics() {
                         {item.subCategory}
                       </StyledText>
                       <StyledText
-                        className={`text-xl text-right text-[${colorMapHEX(
-                          item.value
-                        )}]`}
+                        className={`text-xl text-right ${colorMapTW(item.value)}`}
                         weight="bold"
                       >
                         {item.value}

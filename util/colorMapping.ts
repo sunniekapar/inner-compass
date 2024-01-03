@@ -22,20 +22,20 @@ export const colorMapTW = (value: number) => {
 export const colorMapHEX = (value: number) => {
   switch (value) {
     case 10:
-      return '#1e3a8a';
+      return '#312e81';
     case 9:
     case 8:
-      return '#064e3b';
+      return '#1e3a8a';
     case 7:
     case 6:
-      return '#166534';
+      return '#047857';
     case 5:
     case 4:
-      return "#a16207";
+      return "#f59e0b";
     case 3:
     case 2:
-      return "#78350f";
+      return "#ea580c";
     default:
-      return '#7f1d1d';
+      return '#b91c1c';
   }
 };

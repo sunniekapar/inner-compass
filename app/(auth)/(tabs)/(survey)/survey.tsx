@@ -4,15 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { COLORS } from '../../../../constants';
 import Button from '../../../../components/Button';
 import StyledText from '../../../../components/StyledText';
-import { SplashScreen, router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Question } from '../../../../data/types';
 import ProgressIndicator from '../../../../components/ProgressIndicator';
 import importCategoryData from '../../../../util/data';
 import Layout from '../../../../components/Layout';
 import { useUser } from '@clerk/clerk-expo';
 import { url } from '../../../../util/key';
-
-SplashScreen.preventAutoHideAsync();
+import { normalizeCategoryName } from '../../../../util/util';
 
 export default function Survey() {
   const [category, setCategory] = useState('');
@@ -23,6 +22,14 @@ export default function Survey() {
   const { user } = useUser();
   const params = useLocalSearchParams<{ id: string }>();
   const categoryName = params.id;
+  
+  useEffect(() => {
+    return () => {
+      setSliderValue(5);
+      setCurrentQuestion(0);
+      setButtonLabel('Next question');
+    };
+  }, []);
 
   useEffect(() => {
     importCategoryData(categoryName)
@@ -40,27 +47,35 @@ export default function Survey() {
     const data = {
       userId: user?.id,
       category: categoryName,
-      questions: questions.map(({ id, question, ...rest }) => rest),
+      questions: questions.map(({ _id, question, ...rest }) => rest),
     };
 
     const surveyDataJSON = JSON.stringify(data);
     try {
-      const response = await fetch(`${url}/categories/${user?.id}/${categoryName.replaceAll(' ', '')}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: surveyDataJSON,
-      });
+      const collectionName = normalizeCategoryName(categoryName);
+
+      const response = await fetch(
+        `${url}/categories/${user?.id}/${collectionName}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: surveyDataJSON,
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      const responseData = await response.json();
-      console.log('Survey data saved:', responseData);
+      //const responseData = await response.json();
+      // console.log('Survey data saved:', responseData);
 
       // Redirect or update the UI after successful submission
+      setCurrentQuestion(0);
+      setSliderValue(5);
+      setButtonLabel('Next question');
       router.replace({
         pathname: '/(auth)/(tabs)/(statistics)/statistics',
         params: { id: categoryName },
@@ -84,13 +99,10 @@ export default function Survey() {
   if (questions.length === 0) {
     return <Layout />;
   }
-  SplashScreen.hideAsync();
+
   return (
     <Layout>
-      <ProgressIndicator
-        maximumValue={questions.length}
-        currentValue={currentQuestion}
-      />
+      <ProgressIndicator maximumValue={questions.length} currentValue={currentQuestion} />
       <SafeAreaView className="items-center justify-between flex-1 w-2/3 mx-auto my-20">
         <View className="items-center">
           <StyledText weight="semibold" className="text-2xl">
