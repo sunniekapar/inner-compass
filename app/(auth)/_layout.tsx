@@ -28,6 +28,7 @@ export const LogoutButton = () => {
 
 export default function RootLayoutNav() {
   const { isSignedIn } = useAuth();
+  
   return (
     <Stack
       screenOptions={{

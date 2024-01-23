@@ -10,8 +10,8 @@ import { Entypo } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useUser } from '@clerk/clerk-expo';
 import { LogoutButton } from '../../_layout';
-import { normalizeCategoryName } from './../../../../util/util';
-const data = [
+
+const categories = [
   {
     category: 'Personal Relationship',
     description: 'Explore and evaluate the quality of your romantic and close personal connections.',
@@ -45,6 +45,7 @@ const data = [
     description: 'Assess the environment and culture of your current workplace and its impact on you.',
   },
 ];
+
 export default function home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -80,7 +81,7 @@ export default function home() {
               Choose one topic that you'd like to focus on:
             </StyledText>
             <ScrollView>
-              {data.map((item, index) => {
+              {categories.map((item, index) => {
                 return (
                   <Pressable
                     onPress={() => {
